@@ -1,9 +1,10 @@
+run("Set Measurements...", "area mean standard min perimeter feret's integrated stack display add redirect=None decimal=2");
 
 dir = getDirectory("Choose a Directory"); 
 names = newArray(nImages); 
 ids = newArray(nImages); 
 print("Number of images: "+ nImages);
-
+/*
 //First, select channel to quantify and desired Threshold
   Dialog.create("Float Image");
   Dialog.addSlider("channel to threshold:", 1, 5, 1);
@@ -17,8 +18,12 @@ print("Number of images: "+ nImages);
   ThresholdMin = Dialog.getNumber();
   ThresholdMax = Dialog.getNumber();
   size = Dialog.getNumber();
+*/
+  thresholdchannel = 3;
+  ThresholdMin = 100;
+  ThresholdMax = 255;
+  size = 10;
   
-
 print("Threshold Channel: " + thresholdchannel);
 //print("Quantify Channel: " + quantifychannel);
 print("Threshold Min: " + ThresholdMin);
@@ -51,12 +56,15 @@ for (q=0; q <ids.length; q++){
 		run("Median...", "radius=2");
 		run("Remove Outliers...", "radius=2 threshold=1 which=Bright");
 		run("Threshold...");                 // to open the threshold window if not opened yet 
-  		setThreshold(ThresholdMin, ThresholdMax);
-  		setOption("BlackBackground", false);
-  		run("Convert to Mask");
-  		//Add here Watershed
+		setThreshold(ThresholdMin, ThresholdMax);
+		setOption("BlackBackground", true);
+		//setAutoThreshold("Default");
+		run("Convert to Mask");
+		//Add here Watershed
         //run("Analyze Particles...", "size="+size+"-Infinity show=Outlines exclude include add stack");
-        run("Analyze Particles...", "size="+size+"-Infinity show=Outlines exclude include add");
+
+        run("Analyze Particles...", "size="+size+"-Infinity show=Outlines display include add");
+        //run("Analyze Particles...", "size="+size+"-Infinity show=Outlines exclude include add");
     	roiManager("Show All");       
 		count=roiManager("count"); 
 		array=newArray(count); 
